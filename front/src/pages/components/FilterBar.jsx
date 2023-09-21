@@ -1,7 +1,7 @@
 import React from "react";
 import { Space, Select, Input, Form, Row, Col, Button } from "antd";
 
-const statesOrder = [
+const statusOrder = [
   {
     value: "All",
     label: "All",
@@ -25,7 +25,7 @@ const statesOrder = [
 ];
 
 const initialValues = {
-  estado: "All",
+  status: "All",
 };
 
 const FilterBar = () => {
@@ -36,9 +36,9 @@ const FilterBar = () => {
         <Row gutter={[16, 0]}>
           <Col xs={24} md={4} className="gutter-row">
             <Form.Item
-              label="Estado"
+              label="Status"
               labelCol={{ span: 24 }}
-              name="estado"
+              name="status"
               rules={[
                 {
                   required: true,
@@ -48,7 +48,7 @@ const FilterBar = () => {
             >
               <Select
                 // onChange={handleChange}
-                options={statesOrder}
+                options={statusOrder}
               />
             </Form.Item>
           </Col>

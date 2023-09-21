@@ -4,17 +4,17 @@ const ordersDao = {};
 
 /**
  * Returns order apply filters
- * @param {} query
+ * @param {} filter
  * @returns
  */
-ordersDao.getOrdersByFilter = async (query) => {
+ordersDao.getOrdersByFilter = async (filter) => {
   const values = [];
   let conn;
 
   try {
     conn = await fetchConn();
 
-    const query = `
+    let query = `
     SELECT 
       id, 
       create_date createDate, 
@@ -22,7 +22,21 @@ ordersDao.getOrdersByFilter = async (query) => {
       cliente, 
       shipping_address shippingAddress, 
       shipping_promise shippingPromise
-    FROM tiendamia.ordenes `;
+    FROM ordenes `;
+
+    if (filter.status != "All") {
+      query += "WHERE status = ? ";
+      values.push(filter.status);
+    } else {
+      query += "WHERE (1=1) ";
+    }
+
+    if (filter.startDate != "null" && filter.endDate != "null") {
+      query += "AND shipping_promise BETWEEN ? AND ?";
+
+      values.push(filter.startDate);
+      values.push(filter.endDate);
+    }
 
     const rows = await conn.query(query, values);
     return rows;

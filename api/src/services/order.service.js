@@ -4,12 +4,12 @@ const orderService = {};
 
 /**
  * Merge orders and items
- * @param {*} query
+ * @param {*} filter
  * @returns
  */
-orderService.getOrders = async (query) => {
+orderService.getOrders = async (filter) => {
   try {
-    const orders = await ordersDao.getOrdersByFilter(query);
+    const orders = await ordersDao.getOrdersByFilter(filter);
     return orders;
   } catch (error) {
     throw new Error(error.message);
