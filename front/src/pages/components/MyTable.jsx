@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { Table } from "antd";
+import { Table, Tag } from "antd";
 
 import { fetch } from "@utils/fetch";
 import { GlobalContext } from "@context/GlobalContext";
@@ -17,7 +17,7 @@ const MyTable = () => {
     setOrders(data);
   };
 
-  const expandedRowRender = () => {
+  const expandedRowRender = (row) => {
     const columns = [
       {
         title: "Title",
@@ -45,9 +45,15 @@ const MyTable = () => {
         key: "quantity",
       },
     ];
-    const data = [];
-    console.log("first");
-    return <Table columns={columns} dataSource={data} pagination={false} />;
+
+    return (
+      <Table
+        rowKey={"id"}
+        columns={columns}
+        dataSource={row.items}
+        pagination={false}
+      />
+    );
   };
   const columns = [
     {
@@ -63,6 +69,28 @@ const MyTable = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
+      render: (_, row) => {
+        switch (row.status) {
+          case "Approve":
+            return (
+              <Tag color={"green"} key={row.status}>
+                {row.status}
+              </Tag>
+            );
+          case "Cancel":
+            return (
+              <Tag color={"red"} key={row.status}>
+                {row.status}
+              </Tag>
+            );
+          default:
+            return (
+              <Tag color={"blue"} key={row.status}>
+                {row.status}
+              </Tag>
+            );
+        }
+      },
     },
     {
       title: "Cliente",
@@ -88,17 +116,7 @@ const MyTable = () => {
       },
     },
   ];
-  const data = [];
-  for (let i = 0; i < 3; ++i) {
-    data.push({
-      key: i.toString(),
-      createDate: "Screen",
-      status: "iOS",
-      cliente: "10.3.4.5654",
-      shippingAddress: 500,
-      shippingPromise: "Jack",
-    });
-  }
+
   return (
     <Table
       rowKey={"id"}
