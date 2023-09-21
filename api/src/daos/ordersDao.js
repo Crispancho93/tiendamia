@@ -47,4 +47,35 @@ ordersDao.getOrdersByFilter = async (filter) => {
   }
 };
 
+/**
+ * Get items by orders
+ * @param {*} filter
+ * @returns
+ */
+ordersDao.getItemsByOrder = async (orders) => {
+  let conn;
+
+  try {
+    conn = await fetchConn();
+
+    let query = `
+    SELECT 
+      id, 
+      order_id orderId, 
+      title, 
+      description, 
+      url, 
+      price, 
+      quantity
+    FROM items WHERE order_id IN(${orders})`;
+
+    const rows = await conn.query(query);
+    return rows;
+  } catch (error) {
+    throw new Error(error.message);
+  } finally {
+    conn?.end();
+  }
+};
+
 export default ordersDao;

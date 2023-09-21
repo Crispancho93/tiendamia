@@ -10,6 +10,14 @@ const orderService = {};
 orderService.getOrders = async (filter) => {
   try {
     const orders = await ordersDao.getOrdersByFilter(filter);
+    const idsOrders = orders.map((objeto) => objeto.id).join(",");
+
+    const items = await ordersDao.getItemsByOrder(idsOrders);
+
+    orders.forEach((order) => {
+      order.items = items.filter((x) => x.orderId == order.id);
+    });
+
     return orders;
   } catch (error) {
     throw new Error(error.message);
