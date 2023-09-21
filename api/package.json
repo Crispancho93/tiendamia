@@ -5,7 +5,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "set NODE_ENV=development && nodemon ./src/index.js"
+    "dev": "set NODE_ENV=development && nodemon ./src/index.js",
+    "start": "set NODE_ENV=prod && node ./src/index.js"
   },
   "keywords": [],
   "author": "",
