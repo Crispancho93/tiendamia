@@ -1,6 +1,22 @@
+import { useContext, useEffect } from "react";
 import { Table } from "antd";
 
+import { fetch } from "@utils/fetch";
+import { GlobalContext } from "@context/GlobalContext";
+
 const MyTable = () => {
+  const { setOrders, orders } = useContext(GlobalContext);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    const url = `orders/All/0/0`;
+    const { data } = await fetch(url);
+    setOrders(data);
+  };
+
   const expandedRowRender = () => {
     const columns = [
       {
@@ -38,6 +54,10 @@ const MyTable = () => {
       title: "CreateDate",
       dataIndex: "createDate",
       key: "createDate",
+      render: (_, record) => {
+        const [value] = record.createDate.split("T");
+        return value;
+      },
     },
     {
       title: "Status",
@@ -53,11 +73,19 @@ const MyTable = () => {
       title: "ShippingAddress",
       dataIndex: "shippingAddress",
       key: "shippingAddress",
+      render: (_, record) => {
+        const [value] = record.shippingAddress.split("T");
+        return value;
+      },
     },
     {
       title: "ShippingPromise",
       dataIndex: "shippingPromise",
       key: "shippingPromise",
+      render: (_, record) => {
+        const [value] = record.shippingPromise.split("T");
+        return value;
+      },
     },
   ];
   const data = [];
@@ -73,10 +101,11 @@ const MyTable = () => {
   }
   return (
     <Table
+      rowKey={"id"}
       columns={columns}
       scroll={{ x: 1000 }}
       expandable={{ expandedRowRender }}
-      dataSource={data}
+      dataSource={orders}
       size="small"
     />
   );

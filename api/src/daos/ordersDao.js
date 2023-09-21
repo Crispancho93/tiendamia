@@ -31,12 +31,14 @@ ordersDao.getOrdersByFilter = async (filter) => {
       query += "WHERE (1=1) ";
     }
 
-    if (filter.startDate != "null" && filter.endDate != "null") {
-      query += "AND shipping_promise BETWEEN ? AND ?";
+    if (filter.startDate != "0" && filter.endDate != "0") {
+      query += "AND shipping_promise BETWEEN ? AND ? ";
 
       values.push(filter.startDate);
       values.push(filter.endDate);
     }
+
+    query += "ORDER BY shipping_promise DESC ";
 
     const rows = await conn.query(query, values);
     return rows;

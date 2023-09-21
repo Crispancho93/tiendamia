@@ -1,5 +1,6 @@
 import { PORT } from "./configs.js";
 import express from "express";
+import cors from "cors";
 import morgan from "morgan";
 import { orderRoutes } from "./routes/index.js";
 import basicAuth from "./middlewares/basic.auth.js";
@@ -7,6 +8,7 @@ import basicAuth from "./middlewares/basic.auth.js";
 const app = express();
 
 // Middlewares
+app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 

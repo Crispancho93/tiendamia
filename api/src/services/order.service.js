@@ -10,8 +10,9 @@ const orderService = {};
 orderService.getOrders = async (filter) => {
   try {
     const orders = await ordersDao.getOrdersByFilter(filter);
-    const idsOrders = orders.map((objeto) => objeto.id).join(",");
+    if (!orders.length) return [];
 
+    const idsOrders = orders.map((objeto) => objeto.id).join(",");
     const items = await ordersDao.getItemsByOrder(idsOrders);
 
     orders.forEach((order) => {
